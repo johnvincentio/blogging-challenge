@@ -1,0 +1,17 @@
+{
+  "name": "1.4.7-challenge-blog-api",
+  "version": "1.0.0",
+  "description": "Blog API ========",
+  "main": "server.js",
+  "scripts": {
+      "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "morgan": "^1.8.1",
+    "uuid": "^3.0.1"
+  }
+}
