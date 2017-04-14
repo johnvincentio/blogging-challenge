@@ -10,6 +10,7 @@ const chaiHttp = require('chai-http');
 
 const {app, runServer, closeServer} = require('../server');
 
+/* jshint -W098 */
 const should = chai.should();
 
 chai.use(chaiHttp);
@@ -46,7 +47,7 @@ describe('Blogs', function() {
             });
     });
 
-    it('should GET the first blog', function() {
+    it('should get the first blog on a GET by id', function() {
         return chai.request(app)
             .get('/blog')
             .then(function(res) {
@@ -74,7 +75,59 @@ describe('Blogs', function() {
             });
     });
 
-    it('should DELETE the first blog', function() {
+    it('should add a blog on POST', function() {
+        const newItem = {
+            title: 'title-99', content: 'content-99', author: 'author-99'
+        };
+        return chai.request(app)
+            .post('/blog')
+            .send(newItem)
+            .then(function(res) {
+                res.should.have.status(201);
+            /* jshint -W030 */
+                res.should.be.json;
+                res.body.should.be.a('object');
+                res.body.should.include.keys('id', 'title', 'content', 'author', 'publishDate');
+                res.body.id.should.not.be.null;
+                res.body.title.should.equal(newItem.title);
+                res.body.content.should.equal(newItem.content);
+                res.body.author.should.equal(newItem.author);
+        });
+    });
+
+    it('should update a blog on PUT', function() {
+        const updateItem = {
+            title: 'title-99',
+            content: 'content-99',
+            author: 'author-99'
+        };
+        return chai.request(app)
+            .get('/blog')
+            .then(function(res) {
+                res.should.have.status(200);
+                updateItem.id = res.body[0].id;
+                updateItem.publishDate = res.body[0].publishDate;
+                return chai.request(app)
+                    .put('/blog/' + updateItem.id)
+                    .send(updateItem);
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+            /* jshint -W030 */
+                res.should.be.json;
+                res.body.should.be.a('object');
+                res.body.should.include.keys('id', 'title', 'content', 'author', 'publishDate');
+                res.body.id.should.not.be.null;
+                res.body.id.should.equal(updateItem.id);
+                res.body.title.should.equal(updateItem.title);
+                res.body.content.should.equal(updateItem.content);
+                res.body.author.should.equal(updateItem.author);
+                res.body.publishDate.should.equal(updateItem.publishDate);
+
+            });
+    });
+
+    it('should delete the first blog on DELETE', function() {
         return chai.request(app)
             .get('/blog')
             .then(function(res) {
@@ -85,8 +138,6 @@ describe('Blogs', function() {
             .then(function(res) {
                 res.should.have.status(204);
             });
-
-
     });
 
 });

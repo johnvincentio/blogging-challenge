@@ -5,6 +5,7 @@
 
 const express = require('express');
 const router = express.Router();
+
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
@@ -62,7 +63,8 @@ router.put('/:id', jsonParser, (req, res) => {
         author: req.body.author,
         publishDate: req.body.publishDate || Date.now()
     });
-    res.status(204).json(updatedItem);
+//   res.status(204).json(updatedItem); // code of 204 appears to cause body to be empty.
+    res.status(200).json(updatedItem);
 });
 
 router.delete('/:id', (req, res) => {
