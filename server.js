@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
 });
 
-app.use('/blog-posts', blogRouter);
+app.use('/blog', blogRouter);
 
 // both runServer and closeServer need to access the same
 // server object, so we declare `server` here, and then when

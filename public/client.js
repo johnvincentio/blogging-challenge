@@ -60,7 +60,7 @@ var updateTemplate = '\
  ';
 
 var serverBase = window.location.href;
-var BLOGS_URL = serverBase + 'blog-posts';
+var BLOGS_URL = serverBase + 'blog';
 
 $(function() {
 
