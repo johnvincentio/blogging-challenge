@@ -74,4 +74,19 @@ describe('Blogs', function() {
             });
     });
 
+    it('should DELETE the first blog', function() {
+        return chai.request(app)
+            .get('/blog')
+            .then(function(res) {
+                res.should.have.status(200);
+                return chai.request(app)
+                    .delete('/blog/'+res.body[0].id);
+            })
+            .then(function(res) {
+                res.should.have.status(204);
+            });
+
+
+    });
+
 });
